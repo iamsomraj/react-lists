@@ -5,15 +5,30 @@ import CharComponent from './CharComponent/CharComponent';
 
 class App extends Component {
   state = {
+    inputString: '',
     lengthString: 0,
     charArray: []
   };
   textInputChangeHandler = event => {
     this.setState({
+      inputString: event.target.value,
       lengthString: event.target.value.length,
       charArray: event.target.value.split('')
     });
   };
+
+  deleteCharHandler = index => {
+    let inputStringArray =  this.state.charArray;
+    inputStringArray.splice(index,1)
+    let inputString = inputStringArray.join('');
+    let length = inputString.length;
+    
+    this.setState({
+      inputString: inputString,
+      lengthString: length,
+      charArray: inputStringArray
+    });
+  }
 
   renderHeader = () => {
     return (
@@ -25,6 +40,7 @@ class App extends Component {
           name="text-input"
           type="text"
           onChange={this.textInputChangeHandler}
+          value={this.state.inputString}
         />
         <h1>
           <p>Length - {this.state.lengthString}</p>
@@ -38,7 +54,9 @@ class App extends Component {
     return (
       <div className="App">
         {this.renderHeader()}
-        <CharComponent text={this.state.charArray} />
+        {this.state.charArray.map( (char,index) => {
+        return <CharComponent text={char} key={index} clicked={() => this.deleteCharHandler(index)}/>;
+      })}
       </div>
     );
   }

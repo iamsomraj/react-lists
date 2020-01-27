@@ -10,10 +10,8 @@ const CharComponent = props => {
   };
 
   return (
-    <div >
-      {props.text.map(char => {
-        return <div style={charComponentStyle}>{char}</div>;
-      })}
+    <div style={charComponentStyle} onClick={props.clicked} >
+      {props.text}
     </div>
   );
 };
